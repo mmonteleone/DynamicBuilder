@@ -1,5 +1,6 @@
 ﻿#region license
 /* DynamicBuilder
+ * Suspiciously pleasant XML construction API for C# 4, inspired by Ruby's Builder
  * http://github.com/mmonteleone/DynamicBuilder
  * 
  * Copyright (C) 2010 Michael Monteleone (http://michaelmonteleone.net)
@@ -25,18 +26,19 @@
 #endregion
 #region documentation
 /*
-Inspired heavily by the Ruby Builder library, *DynamicBuilder* exploits new features 
-of C# 4 like dynamic method invocation and optional parameters along with with 
-anonymous objects and delegates to yield an API which **accomplishes the unthinkable: 
-*pleasant* XML construction with .NET**.  The API can be learned in five minutes and 
-integrated into existing code in even less time as it's simply a single small class.
+Inspired heavily by the Ruby Builder library, *DynamicBuilder* exploits 
+new features of C# 4 like dynamic method invocation and optional parameters 
+along with anonymous objects and delegates to yield an API which **accomplishes 
+the unthinkable: *pleasant* XML construction with .NET**.  The API can be 
+learned in five minutes and integrated into existing code in even less time as 
+it's simply a single small class.
 
 Examples!
 ---------
 
 ### Nodes via dynamic invocation
 
-    var xml = new DynamicBuilder.Xml();
+    dynamic xml = new DynamicBuilder.Xml();
 
     // non-existent "hello" method resolves to a "hello" node at runtime
     xml.hello("world");
@@ -45,7 +47,7 @@ Examples!
 
 ### Attributes via anonymous objects
 
-    var xml = new DynamicBuilder.Xml();    
+    dynamic xml = new DynamicBuilder.Xml();    
 
     // passing an anonymous object resolves to xml attributes
     xml.user("John Doe", new { username="jdoe" = 2, usertype = "admin" });
@@ -54,7 +56,7 @@ Examples!
     
 ### Nesting via anonymous delegates
 
-    var xml = new DynamicBuilder.Xml();
+    dynamic xml = new DynamicBuilder.Xml();
     
     // passing an anonymous delegate creates a nested context
     xml.user(Xml.Fragment(u => {
@@ -112,20 +114,21 @@ Examples!
 Installation
 ------------
 
-**Requirements**
-DynamicBuilder requires the .NET 4 framework to compile, and (for now) the .NET 2 
-framework for running its xUnit test suite.
+**Requirements**  
+DynamicBuilder requires the .NET 4 framework to compile, and (for now) 
+the .NET 2 framework for running its xUnit test suite.
 
-**Installation**
-Since this is such a small piece of code (just a small single class), it is 
-recommended to simply copy the source, Xml.cs, directly into your project.  It 
-does not really warrant the overhead of being a referenced, compiled, assembly.  
+**Installation**  
+Since this is such a small piece of code (just a small single class), 
+it is recommended to simply copy the source, `Xml.cs`, directly into 
+your project.  It does not really warrant the overhead of being a 
+referenced, compiled, assembly.  
 
 1. Download the source.
 2. `cd` into the project's directory `> build release`
 3. Copy build\Release\Xml.cs into your own project.
-   *  Alternatively, the assembly DynamicBuilder.dll could be added to your project as well.
-4. Either modify Xml.cs to share your project's namespace, or state `using DynamicBuilder` within your code
+   *  Alternatively, the assembly `DynamicBuilder.dll` can be added to your project as well.
+4. Either modify `Xml.cs` to share your project's namespace, or state `using DynamicBuilder` within your code
 
 To run DynamicBuilder's [xUnit][2]-based tests, use
     > build test
@@ -172,7 +175,10 @@ the `Xml.Fragment()` helper method which does this for us in a more fluent manne
 
 **Adding Special Content**
 
-XML declaration node can be added via the `.Declaration()` method
+An XML declaration node can be added via the `.Declaration()` method
+
+    // yields <?xml version="1.0" encoding="utf-8"?>
+    xml.Declaration();
 
     // yields <?xml version="1.0" encoding="utf-8"?>
     xml.Declaration(encoding: "utf-8");
@@ -180,7 +186,7 @@ XML declaration node can be added via the `.Declaration()` method
     // yields <?xml version="1.0" encoding="utf-16" standalone="yes"?>
     xml.Declaration(encoding: "utf-16", standalone: "yes");
     
-Document Type can be added via the `.DocumentType()` method
+A Document Type can be added via the `.DocumentType()` method
 
     // yields <!DOCTYPE html>
     
@@ -247,17 +253,26 @@ any manner of native .NET XML types, including
     xml.ToXmlNode();
     xml.ToXmlElement();
 
+To Do/Known issues
+------------------
+
+* Limitations of the `XDocument` API translate to limitations of `DynamicBuilder.Xml` as `XDocument` is the underlying model.
+* Namespace support is still somewhat weak
+* Explicitly declaring XML version is not always respected depending on output To* type
+* Need a way to declare raw non-escaped markup
+* Still requires .NET 2 for testing - perhaps due to issue with integrating .NET 4 builds of [xUnit][2]?
+
 Credit
 ------
 
 * Copyright 2010 [Michael Monteleone][0]
-* Directly inspired by Jim Weirich Builder library for Ruby
+* Directly inspired by [Jim Weirich][3]'s [Builder library for Ruby][4]
 
 Version History
 ---------------
 
-0.5.0.0 - initial release
- 
+* 0.5.0.0 - initial release
+
 */
 #endregion
 using System;

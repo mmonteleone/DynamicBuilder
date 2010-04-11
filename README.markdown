@@ -6,14 +6,14 @@ Suspiciously pleasant XML construction API for [C# 4][5], inspired by Ruby's [Bu
 What?
 -----
 
-Inspired heavily by the Ruby [Builder][4] library, *DynamicBuilder* exploits new features of [C# 4][5] like dynamic method invocation and optional parameters along with with anonymous objects and delegates to yield an API which **accomplishes the unthinkable: *pleasant* XML construction with .NET**.  The API can be learned in five minutes and integrated into existing code in even less time as it's simply a single small class.
+Inspired heavily by the Ruby [Builder][4] library, *DynamicBuilder* exploits new features of [C# 4][5] like dynamic method invocation and optional parameters along with anonymous objects and delegates to yield an API which **accomplishes the unthinkable: *pleasant* XML construction with .NET**.  The API can be learned in five minutes and integrated into existing code in even less time as it's simply a single small class.
 
 Examples!
 ---------
 
 ### Nodes via dynamic invocation
 
-    var xml = new DynamicBuilder.Xml();
+    dynamic xml = new DynamicBuilder.Xml();
 
     // non-existent "hello" method resolves to a "hello" node at runtime
     xml.hello("world");
@@ -22,7 +22,7 @@ Examples!
 
 ### Attributes via anonymous objects
 
-    var xml = new DynamicBuilder.Xml();    
+    dynamic xml = new DynamicBuilder.Xml();    
 
     // passing an anonymous object resolves to xml attributes
     xml.user("John Doe", new { username="jdoe" = 2, usertype = "admin" });
@@ -31,7 +31,7 @@ Examples!
     
 ### Nesting via anonymous delegates
 
-    var xml = new DynamicBuilder.Xml();
+    dynamic xml = new DynamicBuilder.Xml();
     
     // passing an anonymous delegate creates a nested context
     xml.user(Xml.Fragment(u => {
@@ -150,24 +150,24 @@ Attractive but superficial.  C# 3.0 brought LINQ to XML, and with it, `System.Xm
         new XElement("email", "jdoe@exampe.org")
     );
     
-While a terrific improvement, it's still troublesome to use when the document must be generated programmatically.  The simple case of iterating over a list of blog posts in the above Atom feed example is not possible with the XElement object initialization syntax without building the document in multiple separate looped chunks and then adding the parts together.  *DynamicBuilder*'s use of anonymous delegates instead of just object initialization allows for all manner of logic within the a single, unified, XML declaration.  *DynamicBuilder*'s anonymous object-to-attributes are also terser than instantiating multiple `XAttribute`s.
+While a terrific improvement, it's still troublesome to use when the document must be generated programmatically.  The simple case of iterating over a list of blog posts in the above Atom feed example is not possible with the XElement object initialization syntax without building the document in multiple separate looped chunks and then adding the parts together.  *DynamicBuilder*'s use of anonymous delegates instead of just object initialization allows for all manner of logic within a single, unified, XML declaration.  *DynamicBuilder*'s anonymous object-to-attributes are also terser than instantiating multiple `XAttribute`s.
 
 *LINQ to XML* remains the simplest XML querying/consumption mechanism, even against `DynamicBuilder.Xml`.  `DynamicBuilder.Xml` actually uses `System.Xml.Linq` types internally to model its XML, and can easily expose it via `xmlInstance.ToXElement()`.
 
 Installation
 ------------
 
-**Requirements**
+**Requirements**  
 DynamicBuilder requires the .NET 4 framework to compile, and (for now) the .NET 2 framework for running its xUnit test suite.
 
-**Installation**
-Since this is such a small piece of code (just a small single class), it is recommended to simply copy the source, Xml.cs, directly into your project.  It does not really warrant the overhead of being a referenced, compiled, assembly.  
+**Installation**  
+Since this is such a small piece of code (just a small single class), it is recommended to simply copy the source, `Xml.cs`, directly into your project.  It does not really warrant the overhead of being a referenced, compiled, assembly.  
 
 1. Download the source.
 2. `cd` into the project's directory `> build release`
 3. Copy build\Release\Xml.cs into your own project.
-   *  Alternatively, the assembly DynamicBuilder.dll could be added to your project as well.
-4. Either modify Xml.cs to share your project's namespace, or state `using DynamicBuilder` within your code
+   *  Alternatively, the assembly `DynamicBuilder.dll` can be added to your project as well.
+4. Either modify `Xml.cs` to share your project's namespace, or state `using DynamicBuilder` within your code
 
 To run DynamicBuilder's [xUnit][2]-based tests, use
     > build test
@@ -212,7 +212,10 @@ Nested nodes can be specified with anonymous delegates (although due to a limita
 
 **Adding Special Content**
 
-XML declaration node can be added via the `.Declaration()` method
+An XML declaration node can be added via the `.Declaration()` method
+
+    // yields <?xml version="1.0" encoding="utf-8"?>
+    xml.Declaration();
 
     // yields <?xml version="1.0" encoding="utf-8"?>
     xml.Declaration(encoding: "utf-8");
@@ -220,7 +223,7 @@ XML declaration node can be added via the `.Declaration()` method
     // yields <?xml version="1.0" encoding="utf-16" standalone="yes"?>
     xml.Declaration(encoding: "utf-16", standalone: "yes");
     
-Document Type can be added via the `.DocumentType()` method
+A Document Type can be added via the `.DocumentType()` method
 
     // yields <!DOCTYPE html>
     
