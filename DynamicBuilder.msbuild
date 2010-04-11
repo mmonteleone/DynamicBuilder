@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Test" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+
+	<UsingTask
+		AssemblyFile="lib\xunit.runner.msbuild.dll"
+		TaskName="Xunit.Runner.MSBuild.xunit"/>
+
+	<PropertyGroup Condition="'$(BuildType)' == ''">
+		<BuildType>Debug</BuildType>
+	</PropertyGroup>
+
+	<Target Name="Build">
+		<MSBuild 
+			Projects="src\DynamicBuilder.sln" 
+			Targets="Build" 
+			Properties="Configuration=$(BuildType)" />
+	</Target>
+
+	<Target Name="Test" DependsOnTargets="Build">
+		<xunit 
+			Assembly="build\Debug\DynamicBuilder.Tests.dll"
+			Html="build\Debug\DynamicBuilder.Tests.html"
+			NUnitXml="build\Debug\DynamicBuilder.Tests.Nunit.xml"
+			Xml="build\Debug\DynamicBuilder.Tests.Xunit.xml"
+			/>
+	</Target>
+
+	<Target Name="Release">
+		<MSBuild 
+			Projects="src\DynamicBuilder.sln" 
+			Targets="Build" 
+			Properties="Configuration=Release" />
+		<Copy	SourceFiles="src\DynamicBuilder\Xml.cs" 
+			DestinationFolder="build\Release\"/>
+		<Delete Files="build\Release\DynamicBuilder.Tests.dll;build\Release\xunit.dll"/>
+	</Target>
+
+	<Target Name="Clean">
+		<RemoveDir Directories="build;src\DynamicBuilder\obj;src\DynamicBuilder.Tests\obj;"/>
+	</Target>
+
+</Project>

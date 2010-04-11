@@ -1,0 +1,17 @@
+# Shamelessly stolen from http://gist.github.com/114476
+obj
+bin
+build
+Build
+Thumbs.db
+.DS_Store
+aspnet_client
+*.csproj.user
+*.suo
+*.cache
+~$*
+*.bak
+*.cache
+*.log
+*.swp
+*.user
