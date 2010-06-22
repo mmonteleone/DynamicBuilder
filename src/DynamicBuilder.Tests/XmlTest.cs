@@ -325,10 +325,7 @@ namespace DynamicBuilder.Tests
         {
             var xml = new Xml();
             xml.Tag("outer", Xml.Fragment(() => xml.Tag("inner")));
-            Assert.Equal(
-@"<outer>
-  <inner />
-</outer>", xml.ToString(true));
+            Assert.Equal("<outer>\r\n  <inner />\r\n</outer>", xml.ToString(true));
         }
 
         [Fact]
@@ -337,11 +334,7 @@ namespace DynamicBuilder.Tests
             var xml = new Xml();
             xml.Declaration(encoding: "utf-8");
             xml.Tag("outer", Xml.Fragment(() => xml.Tag("inner")));
-            Assert.Equal(
-@"<?xml version=""1.0"" encoding=""utf-8""?>
-<outer>
-  <inner />
-</outer>", xml.ToString(true));
+            Assert.Equal("<?xml version=\"1.0\" encoding=\"utf-8\"?>\r\n<outer>\r\n  <inner />\r\n</outer>", xml.ToString(true));
         }
 
         [Fact]
@@ -350,11 +343,7 @@ namespace DynamicBuilder.Tests
             var xml = new Xml();
             xml.Declaration(encoding: "utf-16");
             xml.Tag("outer", Xml.Fragment(() => xml.Tag("inner")));
-            Assert.Equal(
-@"<?xml version=""1.0"" encoding=""utf-16""?>
-<outer>
-  <inner />
-</outer>", xml.ToString(true));
+            Assert.Equal("<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<outer>\r\n  <inner />\r\n</outer>", xml.ToString(true));
         }
 
         [Fact]

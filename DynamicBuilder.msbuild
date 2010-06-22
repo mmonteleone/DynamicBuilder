@@ -17,12 +17,7 @@
 	</Target>
 
 	<Target Name="Test" DependsOnTargets="Build">
-		<xunit 
-			Assembly="build\Debug\DynamicBuilder.Tests.dll"
-			Html="build\Debug\DynamicBuilder.Tests.html"
-			NUnitXml="build\Debug\DynamicBuilder.Tests.Nunit.xml"
-			Xml="build\Debug\DynamicBuilder.Tests.Xunit.xml"
-			/>
+		<xunit Assembly="build\Debug\DynamicBuilder.Tests.dll"/>
 	</Target>
 
 	<Target Name="Release">

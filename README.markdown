@@ -97,7 +97,7 @@ The mean streets.  Power and control meets, well, nothing.  The original `System
     
     XmlDocument doc = new XmlDocument();
     XmlElement userElement = doc.CreateElement("user");
-    doc.AppendChild(userElement)
+    doc.AppendChild(userElement);
     XmlElement firstNameElement = doc.CreateElement("firstname");
     firstNameElement.InnerText = "John";
     userElement.AppendChild(firstNameElement);
@@ -111,8 +111,7 @@ The mean streets.  Power and control meets, well, nothing.  The original `System
 
     // Xml creation with an XmlTextWriter - maybe better?
     
-    StringBuilder builder = new StringBuilder();
-    XmlTextWriter writer = new XmlTextWriter(builder, null);
+    XmlTextWriter writer = new XmlTextWriter(Console.Out);
     writer.WriteStartElement("user");
     writer.WriteElementString("firstname", "John");
     writer.WriteElementString("firstname", "Doe");
@@ -158,7 +157,7 @@ Installation
 ------------
 
 **Requirements**  
-DynamicBuilder requires the .NET 4 framework to compile, and (for now) the .NET 2 framework for running its xUnit test suite.
+DynamicBuilder requires the .NET 4 framework to compile and/or run its xUnit test suite.
 
 **Installation**  
 Since this is such a small piece of code (just a small single class), it is recommended to simply copy the source, `Xml.cs`, directly into your project.  It does not really warrant the overhead of being a referenced, compiled, assembly.  
@@ -301,6 +300,7 @@ Credit
 Version History
 ---------------
 
+* 0.6.0.0 - Upgraded to final release of .NET 4 Framework, testing bugfixes
 * 0.5.0.0 - initial release
 
 License

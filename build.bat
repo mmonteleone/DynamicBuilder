@@ -8,6 +8,6 @@ echo where: target = one of "test", "release", "clean"
 goto End
 
 :Build
-%systemroot%\Microsoft.NET\Framework\v4.0.30128\MSBuild.exe DynamicBuilder.msbuild /t:%1
+%systemroot%\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe DynamicBuilder.msbuild /t:%1
 
 :End

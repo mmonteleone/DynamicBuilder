@@ -271,6 +271,7 @@ Credit
 Version History
 ---------------
 
+* 0.6.0.0 - Upgraded to final release of .NET 4 Framework, testing bugfixes
 * 0.5.0.0 - initial release
 
 */
@@ -322,7 +323,7 @@ namespace DynamicBuilder
         /// This is only necessary since dynamic calls cannot accept weakly-typed lambdas /sigh
         /// </summary>
         /// <param name="fragmentBuilder"></param>
-        /// <returns>passed lambda, typed as an Action<dynamic></returns>
+        /// <returns>passed lambda, typed as an Action&lt;dynamic&gt;</returns>
         public static Action<dynamic> Fragment(Action<dynamic> fragmentBuilder)
         {
             if (fragmentBuilder == null) { throw new ArgumentNullException("fragmentBuilder"); }
