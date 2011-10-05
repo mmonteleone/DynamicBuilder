@@ -3,7 +3,7 @@
  * Suspiciously pleasant XML construction API for C# 4, inspired by Ruby's Builder
  * http://github.com/mmonteleone/DynamicBuilder
  * 
- * Copyright (C) 2010 Michael Monteleone (http://michaelmonteleone.net)
+ * Copyright (C) 2010-2011 Michael Monteleone (http://michaelmonteleone.net)
  *
  * Permission is hereby granted, free of charge, to any person obtaining a 
  * copy of this software and associated documentation files (the "Software"), 

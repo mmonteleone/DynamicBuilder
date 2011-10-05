@@ -27,7 +27,7 @@
 			Properties="Configuration=Release" />
 		<Copy	SourceFiles="src\DynamicBuilder\Xml.cs" 
 			DestinationFolder="build\Release\"/>
-		<Delete Files="build\Release\DynamicBuilder.Tests.dll;build\Release\xunit.dll"/>
+		<Delete Files="build\Release\DynamicBuilder.Tests.dll;build\Release\xunit.dll;build\Release\DynamicBuilder.Tests.pdb"/>
 	</Target>
 
 	<Target Name="Clean">

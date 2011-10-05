@@ -294,12 +294,13 @@ To Do/Known issues
 Credit
 ------
 
-* Copyright 2010 [Michael Monteleone][0]
+* Copyright 2010-2011 [Michael Monteleone][0]
 * Directly inspired by [Jim Weirich][3]'s [Builder library for Ruby][4]
 
 Version History
 ---------------
 
+* 0.6.0.1 - Updated to latest xunit, project cleanup
 * 0.6.0.0 - Upgraded to final release of .NET 4 Framework, testing bugfixes
 * 0.5.0.0 - initial release
 
@@ -308,7 +309,7 @@ License
 
 The MIT License
 
-Copyright (c) 2010 Michael Monteleone
+Copyright (c) 2010-2011 Michael Monteleone
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

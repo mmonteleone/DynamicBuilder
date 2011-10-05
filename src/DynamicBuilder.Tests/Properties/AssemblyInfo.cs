@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Michael Monteleone")]
 [assembly: AssemblyProduct("DynamicBuilder.Tests")]
-[assembly: AssemblyCopyright("Copyright © Michael Monteleone 2010")]
+[assembly: AssemblyCopyright("Copyright © Michael Monteleone 2010-2011")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
