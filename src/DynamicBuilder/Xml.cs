@@ -298,6 +298,7 @@ namespace DynamicBuilder
     {
         // Uses the System.Xml.Linq types for internally modeling the XML
         XDocument root = new XDocument();
+    	private XNamespace _xNamespace;
         // holds the current container being worked on in cases of nesting
         XContainer current;
 
@@ -331,28 +332,56 @@ namespace DynamicBuilder
             return fragmentBuilder;
         }
 
-        /// <summary>
-        /// Alternate syntax for generating an XML object via this static factory
-        /// method instead of expliclty creating a "dynamic" in client code.
-        /// </summary>
-        /// <param name="builder"></param>
-        /// <returns></returns>
-        public static Xml Build(Action<dynamic> builder)
-        {
-            if (builder == null) { throw new ArgumentNullException("builder"); }
+    	/// <summary>
+    	/// Alternate syntax for generating an XML object via this static factory
+    	/// method instead of expliclty creating a "dynamic" in client code.
+    	/// </summary>
+    	/// <param name="builder"></param>
+    	/// <param name="xNamespace">Default namespace</param>
+    	/// <returns></returns>
+    	public static Xml Build( Action<dynamic> builder, string xNamespace = null )
+    	{
+    		XNamespace ns = xNamespace;
+    		return Build(builder, ns);
+    	}
 
-            var xbuilder = new Xml();
-            builder(xbuilder);
-            return xbuilder;
-        }
+		/// <summary>
+		/// Alternate syntax for generating an XML object via this static factory
+		/// method instead of expliclty creating a "dynamic" in client code.
+		/// </summary>
+		/// <param name="builder"></param>
+		/// <param name="xNamespace">Default namespace</param>
+		/// <returns></returns>
+		public static Xml Build(Action<dynamic> builder, XNamespace xNamespace)
+		{
+			if( builder == null ) { throw new ArgumentNullException( "builder" ); }
+
+			var xbuilder = new Xml( xNamespace );
+			builder( xbuilder );
+			return xbuilder;
+		}
 
         /// <summary>
         /// Constructs a new Dynamic XML Builder
         /// </summary>
-        public Xml()
+		/// <param name="xNamespace">Default namespace</param>
+        public Xml(string xNamespace = null)
         {
-            current = root;
+			current = root;
+			if( xNamespace != null )
+				_xNamespace = xNamespace;
         }
+
+		/// <summary>
+		/// Constructs a new Dynamic XML Builder
+		/// </summary>
+		/// <param name="xNamespace">Default namespace</param>
+		public Xml( XNamespace xNamespace )
+		{
+			current = root;
+			if( xNamespace != null )
+				_xNamespace = xNamespace;
+		}
 
         /// <summary>
         /// Converts dynamically invoked method calls into nodes.  
@@ -417,7 +446,7 @@ namespace DynamicBuilder
             });
 
             // make a new element for this Tag() call
-            var element = new XElement(tagName);
+			var element = new XElement( tagName );
             current.Add(element);
 
             // if a fragment delegate was passed for building inner nodes
@@ -453,6 +482,10 @@ namespace DynamicBuilder
                     }
                 });
             }
+			
+			// if no xmlns attribute is given then set the default namespace if the default namespace is set
+			if( _xNamespace != null && (attributes == null || attributes.GetType().GetProperties().Any(p => p.Name == "xmlns") ) )
+				element.Name = _xNamespace + element.Name.ToString();
 
             // if a fragment delegate was passed for building inner nodes
             // now go ahead and execute the delegate, and then set the current outer parent
