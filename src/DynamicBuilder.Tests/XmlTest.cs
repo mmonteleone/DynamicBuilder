@@ -27,6 +27,7 @@ using System;
 using Xunit;
 using System.Xml;
 using System.Xml.Linq;
+using System.Linq;
 
 namespace DynamicBuilder.Tests
 {
@@ -401,6 +402,51 @@ namespace DynamicBuilder.Tests
             xml.Tag("tag", "value");
             XmlElement output = xml.ToXmlElement();
             Assert.Equal("tag", output.Name);
+        }
+
+        [Fact]
+        public void Xml_Tag_Not_Writes_Blank_XmlNamespaces()
+        {
+          const string xmlns = "http://foo.com";
+
+          dynamic builder = new Xml();
+          builder.Foo(new { xmlns = xmlns }, Xml.Fragment(x =>
+            x.Bar("foobar")
+          ));
+
+          var namespaces = FindNamespaces(builder);
+
+          Assert.Equal(1, namespaces.Length);
+          Assert.Equal(xmlns, namespaces[0]);
+        }
+
+        [Fact]
+        public void Xml_Tag_Adds_Nested_XmlNamespace_Properly()
+        {
+          const string xmlns = "http://foo.com";
+          const string xmlns2 = "http://foobar.com";
+
+          dynamic builder = new Xml();
+          builder.Foo(new { xmlns = xmlns }, Xml.Fragment(x =>
+            x.Bar("foobar", new { xmlns = xmlns2 })
+          ));
+
+          var namespaces = FindNamespaces(builder);
+
+          Assert.Equal(2, namespaces.Length);
+          Assert.Equal(xmlns, namespaces[0]);
+          Assert.Equal(xmlns2, namespaces[1]);
+        }
+
+        private static XNamespace[] FindNamespaces(dynamic builder)
+        {
+          XDocument xDocument = builder.ToXDocument();
+          var namespaces = xDocument.Root
+                                    .DescendantsAndSelf()
+                                    .Select(x => x.Name.Namespace)
+                                    .Distinct()
+                                    .ToArray();
+          return namespaces;
         }
     }
 }
