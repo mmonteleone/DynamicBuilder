@@ -300,6 +300,7 @@ namespace DynamicBuilder
         XDocument root = new XDocument();
         // holds the current container being worked on in cases of nesting
         XContainer current;
+        XNamespace @namespace;
 
         /// <summary>
         /// Returns a lambda as a strongly-typed Action for use by lambda-accepting
@@ -418,6 +419,10 @@ namespace DynamicBuilder
 
             // make a new element for this Tag() call
             var element = new XElement(tagName);
+            if (@namespace != null)
+            {
+              element.Name = @namespace + element.Name.ToString();
+            }
             current.Add(element);
 
             // if a fragment delegate was passed for building inner nodes
@@ -442,8 +447,8 @@ namespace DynamicBuilder
                     // applying it as a namespace to the element. 
                     if (prop.Name == "xmlns")
                     {
-                        XNamespace ns = prop.GetValue(attributes, null) as string;
-                        element.Name = ns + element.Name.ToString();
+                        @namespace = prop.GetValue(attributes, null) as string;
+                        element.Name = @namespace + tagName;
                     }
                     // otherwise, just convert the property name/value to an attribute pair
                     // on the element
