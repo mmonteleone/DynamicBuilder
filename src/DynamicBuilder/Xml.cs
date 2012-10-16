@@ -301,6 +301,17 @@ namespace DynamicBuilder
         // holds the current container being worked on in cases of nesting
         XContainer current;
 
+        // used to convert snake_cased node names to dashed ditos
+        private bool underScore2Dash;
+
+       /// <summary>
+        /// Convert snake_cased node names to dashed-names
+        /// </summary>
+        public void ConvertUnderScores2Dashes()
+        {
+            underScore2Dash = true;
+        }
+
         /// <summary>
         /// Returns a lambda as a strongly-typed Action for use by lambda-accepting
         /// dynamic dispatch on Xml.  Not unequivalent to simply casting the same 
@@ -388,6 +399,9 @@ namespace DynamicBuilder
             // escape character on tag name/method call
             if (tagName.IndexOf('_') == 0)
                 tagName = tagName.Substring(1);
+
+            if (underScore2Dash) // we are snake_casing_stuff => snake-casing-stuff
+                tagName = tagName.Replace('_', '-');
 
             string content = null;
             object attributes = null;
