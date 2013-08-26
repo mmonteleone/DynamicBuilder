@@ -25,6 +25,7 @@
 #endregion
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 
@@ -91,25 +92,27 @@ namespace DynamicBuilder.Example
         /// Stub method which returns some blog post model objects from somewhere like a DB 
         /// </summary>
         /// <returns></returns>
-        static IList<BlogPost> GetBlogPosts()
+        static IEnumerable<BlogPost> GetBlogPosts()
         {
+            var enUsCulture = new CultureInfo("en-US");
+
             return new List<BlogPost>
             {
                 new BlogPost{
                      Title = "First post!",
-                     PublishDate = DateTime.Parse("2/19/2010"),
+                     PublishDate = DateTime.Parse("2/19/2010", enUsCulture),
                      Content = "This is the very first post",
                      PermaLink = "http://example.org/blog/1"
                 },
                 new BlogPost{
                      Title = "Second post!",
-                     PublishDate = DateTime.Parse("2/25/2010"),
+                     PublishDate = DateTime.Parse("2/25/2010", enUsCulture),
                      Content = "This is the second post, not much better than the first",
                      PermaLink = "http://example.org/blog/2"
                 },
                 new BlogPost{
                      Title = "Third post!",
-                     PublishDate = DateTime.Parse("3/1/2010"),
+                     PublishDate = DateTime.Parse("3/1/2010", enUsCulture),
                      Content = "Three strikes and this is now out of my feedreader.  Yes, even though it's now trying to improve by embedding <strong>html <em>content</em></strong>",
                      PermaLink = "http://example.org/blog/3"
                 }
