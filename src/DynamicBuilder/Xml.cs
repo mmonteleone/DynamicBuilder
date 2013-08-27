@@ -302,6 +302,11 @@ namespace DynamicBuilder
         XContainer current;
 
         /// <summary>
+        /// Replace underscore _ by dash - when its set to true
+        /// </summary>
+        public bool UseDashInsteadUnderscore { get; set; }
+
+        /// <summary>
         /// Returns a lambda as a strongly-typed Action for use by lambda-accepting
         /// dynamic dispatch on Xml.  Not unequivalent to simply casting the same 
         /// lambda when passing to Xml, except slightly cleaner syntax.  This is only 
@@ -367,6 +372,7 @@ namespace DynamicBuilder
         {
             result = null;
             string tagName = binder.Name;
+            if (UseDashInsteadUnderscore) tagName = tagName.Replace("_", "-");
             Tag(tagName, args);
             return true;
         }
