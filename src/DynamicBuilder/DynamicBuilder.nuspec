@@ -6,8 +6,8 @@
     <title>$title$</title>
     <authors>Michael Monteleone</authors>
     <owners>mmonteleone</owners>
-    <licenseUrl>https://github.com/mmonteleone/DynamicBuilder/blob/master/LICENSE.markdown</licenseUrl>
-    <projectUrl>https://github.com/mmonteleone/DynamicBuilder</projectUrl>
+    <licenseUrl>https://raw.githubusercontent.com/lfreneda/DynamicBuilder/master/LICENSE.markdown</licenseUrl>
+    <projectUrl>https://github.com/lfreneda/DynamicBuilder</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>
       Suspiciously pleasant XML construction API for C# 4, inspired by Ruby's Builder
