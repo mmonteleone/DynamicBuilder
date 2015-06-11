@@ -1,13 +1,4 @@
-@echo off
-if "%1" == "" goto Usage
-goto Build
+C:\Windows\Microsoft.NET\Framework\v4.0.30319\msbuild src\DynamicBuilder\DynamicBuilder.csproj /p:Configuration=Release
+src\.nuget\NuGet.exe pack src\DynamicBuilder\DynamicBuilder.csproj -Prop Configuration=Release
 
-:Usage
-echo usage: build [TARGET]
-echo where: target = one of "test", "release", "clean"
-goto End
-
-:Build
-%systemroot%\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe DynamicBuilder.msbuild /t:%1
-
-:End
+PAUSE
